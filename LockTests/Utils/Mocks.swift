@@ -237,7 +237,8 @@ class MockAuthentication: Authentication {
 
     var telemetry: Telemetry
 
-    var webAuth: MockWebAuth!
+    var webAuth: MockWebAuth?
+    
     var webAuthResult: () -> Auth0.Result<Credentials> = { _ in return Auth0.Result.failure(error: AuthenticationError(string: "FAILED", statusCode: 500)) }
 
     required init(clientId: String, domain: String) {
@@ -250,8 +251,8 @@ class MockAuthentication: Authentication {
     func webAuth(withConnection connection: String) -> WebAuth {
         let mockWebAuth = MockWebAuth().connection(connection)
         self.webAuth = mockWebAuth.connection(connection)
-        self.webAuth.result = self.webAuthResult
-        return self.webAuth
+        self.webAuth?.result = self.webAuthResult
+        return self.webAuth!
     }
 
     func tokenInfo(token: String) -> Request<Profile, AuthenticationError> {
@@ -384,11 +385,16 @@ class MockNativeAuthHandler: AuthProvider {
 
     var transaction: MockNativeAuthTransaction!
     var authentication: Authentication!
+    static var validProvider: Bool = true
 
     func login(withConnection connection: String, scope: String, parameters: [String : Any]) -> NativeAuthTransaction {
         let transaction = MockNativeAuthTransaction(connection: connection, scope: scope, parameters: parameters, authentication: self.authentication)
         self.transaction = transaction
         return transaction
+    }
+
+    static func isAvailable() -> Bool {
+        return MockNativeAuthHandler.validProvider
     }
 }
 
