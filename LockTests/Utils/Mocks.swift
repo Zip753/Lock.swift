@@ -384,11 +384,16 @@ class MockNativeAuthHandler: AuthProvider {
 
     var transaction: MockNativeAuthTransaction!
     var authentication: Authentication!
+    static var validProvider: Bool = true
 
     func login(withConnection connection: String, scope: String, parameters: [String : Any]) -> NativeAuthTransaction {
         let transaction = MockNativeAuthTransaction(connection: connection, scope: scope, parameters: parameters, authentication: self.authentication)
         self.transaction = transaction
         return transaction
+    }
+
+    static func isAvailable() -> Bool {
+        return MockNativeAuthHandler.validProvider
     }
 }
 
