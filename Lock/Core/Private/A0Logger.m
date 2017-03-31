@@ -29,7 +29,7 @@
     static A0Logger *instance;
     dispatch_once(&onceToken, ^{
         instance = [[A0Logger alloc] init];
-        instance.level = A0LoggerLevelOff;
+        instance.level = A0LoggerLevelAll;
     });
     return instance;
 }
