@@ -56,6 +56,7 @@
 }
 
 - (void)registerAuthenticationProviders:(NSArray *)authenticationProviders {
+    A0LogDebug(@"Registered %@ providers: %@", [authenticationProviders count], authenticationProviders);
     [authenticationProviders enumerateObjectsUsingBlock:^(id<A0AuthenticationProvider> provider, NSUInteger idx, BOOL *stop) {
         [self registerAuthenticationProvider:provider];
     }];
@@ -112,8 +113,10 @@
 
 - (id<A0AuthenticationProvider>)providerForConnectionName:(NSString *)connectionName {
     id<A0AuthenticationProvider> provider = self.authenticators[connectionName];
+    A0LogDebug(@"A0IdentityProviderAuthenticator authenticators: %@", self.authenticators);
     if (!provider) {
         provider = [self defaultProviderForConnectionName:connectionName];
+        A0LogDebug(@"Falling back to default provider: %@", provider);
     }
     A0LogDebug(@"Provider %@ for connection %@", NSStringFromClass([provider class]), connectionName);
     return provider;
