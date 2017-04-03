@@ -101,7 +101,9 @@
         [self.session tokenFromURL:url callback:self.onAuthentication];
         A0LogDebug(@"Handled callback URL, closing SFSafariViewController now. Apparently...");
         [self.controller dismissViewControllerAnimated:YES completion:nil];
+        A0LogDebug(@"SFSafariViewController should be closed now.");
     }
+    A0LogDebug(@"And here the handling part ends, the rest is done by async dispatches.");
     return shouldHandle;
 }
 

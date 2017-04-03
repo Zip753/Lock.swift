@@ -123,6 +123,7 @@
 - (A0SafariSessionAuthentication)authenticationBlockWithSuccess:(A0IdPAuthenticationBlock)success
                                                         failure:(A0IdPAuthenticationErrorBlock)failure {
     return ^(NSError *error, A0Token *token) {
+        A0LogDebug(@"authenticationBlockWithSuccess: dispatching callback");
         dispatch_async(dispatch_get_main_queue(), ^{
             A0LogDebug(@"authenticationBlockWithSuccess: before callback wrapper");
             if (error) {
@@ -135,6 +136,7 @@
             } failure:failure];
             A0LogDebug(@"authenticationBlockWithSuccess: after callback wrapper");
         });
+        A0LogDebug(@"authenticationBlockWithSuccess: callback dispatched");
     };
 }
 
