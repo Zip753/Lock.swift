@@ -185,6 +185,9 @@ static NSURL *Auth0CDNRegionURLFromDomainURL(NSURL *domainURL) {
 }
 
 - (void)registerAuthenticators:(NSArray *)authenticators {
+    A0LogDebug(@"Welcome! Let's start our journey to Lock world!");
+    A0LogDebug(@"We're now in A0Lock class, passing authenticators to identity provider.");
+    A0LogDebug(@"Authenticators: %@", authenticators);
     [self.identityProviderAuthenticator registerAuthenticationProviders:authenticators];
 }
 
