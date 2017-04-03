@@ -106,6 +106,7 @@
         A0Token *token = [self parseTokenFromURL:url error:&error];
         A0LogDebug(@"tokenFromURL: parsed token: %@, now calling the callback", token);
         callback(error, token);
+        A0LogDebug(@"tokenFromURL: called the callback!");
     }
 }
 
@@ -122,6 +123,7 @@
 
 - (A0SafariSessionAuthentication)authenticationBlockWithSuccess:(A0IdPAuthenticationBlock)success
                                                         failure:(A0IdPAuthenticationErrorBlock)failure {
+    A0LogDebug(@"authenticationBlockWithSuccess: we return block from here");
     return ^(NSError *error, A0Token *token) {
         A0LogDebug(@"authenticationBlockWithSuccess: dispatching callback");
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -130,6 +132,7 @@
                 failure(error);
                 return;
             }
+            A0LogDebug(@"authenticationBlockWithSuccess: make sure we don't fail...");
             [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile * _Nonnull profile) {
                 A0LogDebug(@"authenticationBlockWithSuccess: inside callback wrapper");
                 success(profile, token);

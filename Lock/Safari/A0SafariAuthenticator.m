@@ -90,7 +90,11 @@
     SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:url];
     controller.delegate = self;
     [self.presenter presentController:controller completion:nil];
-    self.onAuthentication = [self.session authenticationBlockWithSuccess:success failure:failure];
+    self.onAuthentication = ^{
+        A0LogDebug(@"onAuthentication: before another wrapper");
+        [self.session authenticationBlockWithSuccess:success failure:failure];
+        A0LogDebug(@"onAuthentication: after another wrapper");
+    };
     self.controller = controller;
 }
 
