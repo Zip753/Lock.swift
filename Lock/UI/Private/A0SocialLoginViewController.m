@@ -40,6 +40,8 @@
 #import "A0Connection.h"
 #import "Constants.h"
 
+#import "A0Logging.h"
+
 static NSString * const ServiceCellIdentifier = @"ServiceCell";
 static const CGFloat ServiceCellHeight = 55.0;
 
@@ -102,6 +104,7 @@ static const CGFloat ServiceCellHeight = 55.0;
     A0ServiceViewModel *service = self.services[sender.tag];
     A0Connection *connection = service.connection;
     A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
+        A0LogDebug(@"triggerAuth: invoking callback");
         [self postLoginSuccessfulForConnection:service.connection];
         [self setInProgress:NO];
         if (self.onLoginBlock) {

@@ -91,6 +91,7 @@
         callback(error, nil);
         return;
     }
+    A0LogDebug(@"PKCE enabled: %@", self.pkce);
     if (self.pkce) {
         NSString *code = params[@"code"];
         NSMutableDictionary *params = [[self.pkce tokenParametersWithAuthorizationCode:code] mutableCopy];
@@ -101,7 +102,9 @@
                                        callback:callback];
     } else {
         NSError *error;
+        A0LogDebug(@"tokenFromURL: calling parseTokenFromURL");
         A0Token *token = [self parseTokenFromURL:url error:&error];
+        A0LogDebug(@"tokenFromURL: parsed token: %@, now calling the callback", token);
         callback(error, token);
     }
 }
@@ -121,13 +124,16 @@
                                                         failure:(A0IdPAuthenticationErrorBlock)failure {
     return ^(NSError *error, A0Token *token) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            A0LogDebug(@"authenticationBlockWithSuccess: before callback wrapper");
             if (error) {
                 failure(error);
                 return;
             }
             [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile * _Nonnull profile) {
+                A0LogDebug(@"authenticationBlockWithSuccess: inside callback wrapper");
                 success(profile, token);
             } failure:failure];
+            A0LogDebug(@"authenticationBlockWithSuccess: after callback wrapper");
         });
     };
 }

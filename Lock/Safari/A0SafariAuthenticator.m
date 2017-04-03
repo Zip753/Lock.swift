@@ -99,6 +99,7 @@
     if (shouldHandle) {
         A0LogDebug(@"Handling callback URL %@", url);
         [self.session tokenFromURL:url callback:self.onAuthentication];
+        A0LogDebug(@"Handled callback URL, closing SFSafariViewController now. Apparently...");
         [self.controller dismissViewControllerAnimated:YES completion:nil];
     }
     return shouldHandle;

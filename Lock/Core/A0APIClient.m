@@ -432,6 +432,7 @@ typedef void (^AFFailureBlock)(NSURLSessionDataTask *, NSError *);
                           A0LogDebug(@"Obtained user profile %@", responseObject);
                           if (success) {
                               A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
+                              A0LogDebug(@"Fetched user profile: %@. Now calling success callback", profile);
                               success(profile);
                           }
                       }
