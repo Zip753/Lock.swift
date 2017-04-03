@@ -62,8 +62,10 @@
     A0LogDebug(@"Registered providers pre: %@", authenticationProviders);
     A0LogDebug(@"Registered %lu providers: %@", [authenticationProviders count], authenticationProviders);
     [authenticationProviders enumerateObjectsUsingBlock:^(id<A0AuthenticationProvider> provider, NSUInteger idx, BOOL *stop) {
+        A0LogDebug(@"Let's register this provider: %@", provider);
         [self registerAuthenticationProvider:provider];
     }];
+    A0LogDebug(@"So in the end we have following authenticators: %@", self.authenticators);
 }
 
 - (void)registerAuthenticationProvider:(A0BaseAuthenticator *)authenticationProvider {
@@ -71,6 +73,7 @@
     NSAssert(authenticationProvider.identifier != nil, @"Provider must have a valid indentifier");
     authenticationProvider.clientProvider = self.lock;
     self.authenticators[authenticationProvider.identifier] = authenticationProvider;
+    A0LogDebug(@"So what we did is we assigned this provider: %@ to this identifier: %@", authenticationProvider, authenticationProvider.identifier);
 }
 
 - (void)authenticateWithConnectionName:(NSString * __nonnull)connectionName
