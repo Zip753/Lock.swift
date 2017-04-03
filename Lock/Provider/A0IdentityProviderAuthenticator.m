@@ -56,6 +56,8 @@
 }
 
 - (void)registerAuthenticationProviders:(NSArray *)authenticationProviders {
+    A0LogDebug(@"Just before registered providers, let's see if this fails...");
+    A0LogDebug(@"Registered providers pre: %@", authenticationProviders);
     A0LogDebug(@"Registered %@ providers: %@", [authenticationProviders count], authenticationProviders);
     [authenticationProviders enumerateObjectsUsingBlock:^(id<A0AuthenticationProvider> provider, NSUInteger idx, BOOL *stop) {
         [self registerAuthenticationProvider:provider];
